@@ -1,6 +1,7 @@
 # docker-LAMP
 defines a docker container running Arch Linux with the LAMP stack installed
-This thing is re-built in the cloud every time a change is made here: https://hub.docker.com/r/greyltc/lamp
+
+A fork of greyltc's LAMP project, specifically for localhost development, with fixes for url rewrite.
 
 ## Usage
 

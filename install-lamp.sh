@@ -82,7 +82,7 @@ sed -i 's,;extension=pdo_sqlite,extension=pdo_sqlite,g' /etc/php/php.ini
 groupadd -g 89 mysql &>/dev/null
 useradd -u 89 -g 89 -d /var/lib/mysql -s /bin/false mysql &>/dev/null
 # here is a hack to prevent an error during install because of missing systemd
-ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
+#ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
 pacman -S --noprogressbar --noconfirm --needed mariadb
 rm /usr/bin/systemd-tmpfiles
 pacman -S --noprogressbar --noconfirm --needed perl-dbd-mysql
@@ -150,8 +150,11 @@ sed -i '/ServerName www.example.com:443/d' /etc/httpd/conf/extra/httpd-ssl.conf
 # this is for lets encrypt ssl cert fetching
 pacman -S --noprogressbar --noconfirm --needed certbot certbot-apache
 
-# instal cron
+# install cron
 pacman -S --noprogressbar --noconfirm --needed cronie
 
+# we need this for url rewrite to work
+sed -i 's,AllowOverride None,AllowOverride All,g' /etc/httpd/conf/httpd.conf
+
 # reduce docker layer size
-cleanup-image
+# cleanup-image

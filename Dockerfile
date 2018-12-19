@@ -1,9 +1,7 @@
-FROM greyltc/archlinux
-MAINTAINER Grey Christoforo <grey@christoforo.net>
+FROM archlinux/base
 
-# update the container's mirrorlist
-RUN get-new-mirrors
-
+RUN pacman -Syy
+ENV hostname localhost
 ADD install-lamp.sh /usr/sbin/install-lamp
 RUN install-lamp
 
@@ -17,12 +15,14 @@ ENV DO_SSL_SELF_GENERATION true
 RUN setup-apache-ssl-key
 ENV DO_SSL_SELF_GENERATION false
 ENV CURLOPT_CAINFO /etc/ssl/certs/ca-certificates.crt
+ENV MYSQL_USER hubzilla-user
+
 
 # here are the ports that various things in this container are listening on
 # for http (apache, only if APACHE_DISABLE_PORT_80 = false)
-#EXPOSE 80
+EXPOSE 80
 # for https (apache)
-EXPOSE 443
+#EXPOSE 443
 # for postgreSQL server (only if START_POSTGRESQL = true)
 EXPOSE 5432
 # for MySQL server (mariadb, only if START_MYSQL = true)
@@ -32,7 +32,7 @@ EXPOSE 3306
 ADD startServers.sh /usr/sbin/start-servers
 ADD setupMysqlUser.sh /usr/sbin/setup-mysql-user
 ENV START_APACHE true
-ENV APACHE_ENABLE_PORT_80 false
+ENV APACHE_ENABLE_PORT_80 true
 ENV START_MYSQL true
 ENV START_POSTGRESQL false
 ENV ENABLE_DAV false
