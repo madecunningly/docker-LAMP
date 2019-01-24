@@ -1,6 +1,6 @@
 FROM archlinux/base
 
-RUN pacman -Syy
+RUN pacman -Syyu --noconfirm 
 ENV hostname localhost
 ADD install-lamp.sh /usr/sbin/install-lamp
 RUN install-lamp
